@@ -29,4 +29,19 @@ public class FoodService {
     public void delete(Long id) {
         foodRepository.deleteById(id);
     }
+
+    // Method to update a food item by ID
+    public Food update(Long id, Food food) {
+        return foodRepository.findById(id)
+            .map(existingFood -> {
+                existingFood.setName(food.getName());
+                existingFood.setQuantity(food.getQuantity());
+                existingFood.setExpirationDate(food.getExpirationDate());
+                return foodRepository.save(existingFood);
+            })
+            .orElseGet(() -> {
+                food.setId(id);
+                return foodRepository.save(food);
+            });
+    }
 }

@@ -1,4 +1,6 @@
 package dev.passosps.Fridge.model;
+import java.time.LocalDate;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -13,13 +15,13 @@ public class Food {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private String expirationDate;
+    private LocalDate expirationDate;
     private Integer quantity;
 
     public Food() {
     }
 
-    public Food(Long id, String name, String expirationDate, Integer quantity) {
+    public Food(Long id, String name, LocalDate expirationDate, Integer quantity) {
         this.id = id;
         this.name = name;
         this.expirationDate = expirationDate;
@@ -38,10 +40,10 @@ public class Food {
     public void setName(String name) {
         this.name = name;
     }
-    public String getExpirationDate() {
+   public LocalDate getExpirationDate() { 
         return expirationDate;
     }
-    public void setExpirationDate(String expirationDate) {
+    public void setExpirationDate(LocalDate expirationDate) { 
         this.expirationDate = expirationDate;
     }
     public Integer getQuantity() {
