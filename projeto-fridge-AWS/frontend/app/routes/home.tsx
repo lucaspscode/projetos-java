@@ -4,8 +4,8 @@ import Header from '../../src/components/Header.jsx';
 import FoodList from '../../src/components/FoodList.jsx';
 import Home from '../../src/pages/Home.jsx';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080';
-const API_URL = `${API_BASE_URL}/API/fridge`;
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL; 
+const API_URL = 'http://18.230.122.249:8080/food';
 
 export default function HomeRoute() {
     const [editingFood, setEditingFood] = useState(null);
