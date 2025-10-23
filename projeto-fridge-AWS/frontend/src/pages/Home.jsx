@@ -68,7 +68,21 @@ const Home = ({ editingFood, setEditingFood, setFoods, foods }) => {
                 response = await axios.post(url, foodData);
             }
 
-            // Lógica de sucesso (limpar formulário, atualizar lista, etc.)
+            if (response) {
+                if (!isEditing) {
+                    // ADICIONAR: Adiciona o novo item (retornado pelo backend) ao final da lista
+                    setFoods(prevFoods => [...prevFoods, response.data]);
+                } else {
+                    // EDITAR: Mapeia a lista e substitui o item editado
+                    setFoods(prevFoods =>
+                        prevFoods.map(f => (f.id === response.data.id ? response.data : f))
+                    );
+                }
+
+                // Limpa o formulário e sai do modo de edição
+                setFoodData(initialFoodState);
+                setEditingFood(null);
+            }
 
         } catch (error) {
             console.error("Erro ao salvar alimento:", error);
