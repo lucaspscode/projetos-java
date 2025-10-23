@@ -1,26 +1,52 @@
-🧊 Fridge API: Sistema de Inventário (Backend Java/RESTful)
-📌 Visão Geral
-Este projeto é uma API RESTful Backend desenvolvida em Java com o framework Spring Boot. 
-Ela foi criada para gerenciar um sistema de inventário de alimentos (simulando uma geladeira), 
-oferecendo todas as operações básicas de persistência de dados (CRUD).
+# 🧊 Fridge API: Sistema de Inventário Completo (Full-Stack)
 
-Seguindo o padrão Controller-Service-Repository, garantindo código desacoplado e fácil manutenção.
+## 📌 Visão Geral
 
-🛠️ Tecnologias Utilizadas
-Este projeto foi construído com base nas seguintes tecnologias e dependências:
+Este projeto é uma **aplicação Full-Stack** que simula um sistema de inventário de alimentos (uma geladeira). É composto por um backend **API RESTful** em Java e um frontend moderno desenvolvido em React.
 
-Linguagem: Java 21
+A aplicação oferece as operações básicas de persistência de dados (**CRUD**: Create, Read, Update, Delete) e segue os princípios de código desacoplado e fácil manutenção.
 
-Framework: Spring Boot (org.springframework.boot:spring-boot-starter-parent:3.5.6)
+---
 
-Spring Data JPA: Facilita a interação com o banco de dados.
+## 🛠️ Tecnologias e Arquitetura
 
-Hibernate: Implementação padrão do JPA para mapeamento Objeto-Relacional (ORM).
+O projeto é dividido em dois módulos principais:
 
-APIs Web: Spring Web (spring-boot-starter-web) para expor endpoints RESTful.
+### ⚙️ Backend (Java/Spring Boot)
 
-Banco de Dados (Desenvolvimento Local): H2 Database (com.h2database:h2) – Banco de dados em memória para testes e desenvolvimento rápido.
+* **Linguagem:** Java 21
+* **Framework:** Spring Boot (versão `3.5.6`)
+* **Arquitetura:** Padrão Controller-Service-Repository.
+* **Módulos Core:** Spring Web e Spring Data JPA/Hibernate.
+* **Banco de Dados (Local):** H2 Database (em memória para desenvolvimento rápido).
+* **Gerenciador de Build:** Apache Maven (`pom.xml`).
+* **Wrapper:** `mvnw.cmd` (para execução via Maven Wrapper).
 
-Ferramentas de Desenvolvimento: Spring Boot DevTools para live-reload durante o desenvolvimento local.
+### 💻 Frontend (React/Vite)
 
-Gerenciador de Build: Apache Maven (pom.xml).
+* **Framework Principal:** React (`^19.1.1`)
+* **Tooling:** **Vite** (`^7.1.7`), TypeScript, e React Router (`^7.9.2`).
+* **Estilização:** TailwindCSS.
+* **Comunicação API:** Axios (`^1.12.2`) para requisições assíncronas.
+
+---
+
+## ☁️ Configuração de Deploy (AWS e Vercel)
+
+Esta seção detalha as configurações de ambiente utilizadas para deploy em produção:
+
+### 🚀 Backend na AWS (EC2)
+
+Para resolver problemas de `Mixed Content` e garantir a segurança na comunicação, o backend foi configurado para rodar em um protocolo seguro.
+
+* **Infraestrutura:** AWS EC2.
+* **Protocolo de Produção:** **HTTPS** ativado.
+* **Porta de Produção:** **8443** (configurada via `application.yml`).
+* **Segurança (SSL):** Uso de certificado SSL/TLS (KeyStore PKCS12) configurado diretamente no servidor Spring Boot.
+* **Regras de Firewall:** A porta **8443** foi explicitamente aberta no Security Group da AWS.
+
+### 🌐 Frontend no Vercel
+
+O frontend é hospedado no Vercel e consome a API através de variáveis de ambiente.
+
+* **Variável de Ambiente:** `VITE_API_BASE_URL` configurada no Vercel para o endpoint HTTPS do backend (ex: `https://[IP_DA_EC2]:8443`).
