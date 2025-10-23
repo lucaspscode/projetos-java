@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios'; 
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL; 
-const API_URL = 'http://18.230.122.249:8080/food';
+const API_URL = '`${API_BASE_URL}/food`';
 
 // 1. Recebe foods e setFoods (para delete) e setEditingFood (para edição) via props
 function FoodList({ foods, setFoods, setEditingFood }) {
