@@ -47,7 +47,7 @@ function FoodList({ foods, setFoods, setEditingFood }) {
                 <p>Nenhum item para exibir. Adicione um novo!</p>
             ) : (
                 <ul className="food-items">
-                    {foods.map(food => (
+                    {Array.isArray(foods) && foods.map(food => (
                         <li key={food.id} className="food-item">
                             <span className="food-name">Item: {food.name}</span> 
                             <span className="food-quantity">Qtd: {food.quantity}</span>
