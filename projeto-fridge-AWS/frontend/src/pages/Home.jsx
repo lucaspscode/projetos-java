@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL; 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 const API_URL = '`${API_BASE_URL}/food`';
 
 // Estado inicial do objeto Food (deve corresponder ao seu modelo Java)
@@ -13,7 +13,7 @@ const initialFoodState = {
 };
 
 const Home = ({ editingFood, setEditingFood, setFoods, foods }) => {
-    
+
     // Estado interno para gerenciar os dados do formulário
     const [foodData, setFoodData] = useState(initialFoodState);
     const isEditing = editingFood !== null;
@@ -28,7 +28,7 @@ const Home = ({ editingFood, setEditingFood, setFoods, foods }) => {
             if (formattedDate && formattedDate.length > 10) {
                 formattedDate = formattedDate.substring(0, 10);
             }
-            
+
             setFoodData({
                 ...editingFood,
                 expirationDate: formattedDate || '' // Usa a data formatada
@@ -46,51 +46,35 @@ const Home = ({ editingFood, setEditingFood, setFoods, foods }) => {
         setFoodData({
             ...foodData,
             // Converte quantity para número, senão, mantém como string
-            [name]: name === 'quantity' ? parseInt(value) || 0 : value, 
+            [name]: name === 'quantity' ? parseInt(value) || 0 : value,
         });
     };
-    
+
     // Handler para submissão do formulário
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
-        // Verifica se a quantidade é zero ou nula e ajusta para 1 (ou o valor mínimo que você deseja)
-        const foodToSave = {
-            ...foodData,
-            quantity: foodData.quantity > 0 ? foodData.quantity : 1 
-        };
-        
+
+        const isEditing = foodData.id !== null; // Se o ID existe, estamos editando
+
         try {
             let response;
-            
-            if (isEditing && foodToSave.id) {
-                // Lógica de EDIÇÃO (PUT)
-                // O backend (Spring Boot) geralmente usa PUT para /food/{id} para atualizar
-                response = await axios.put(`${API_URL}/${foodToSave.id}`, foodToSave);
-                
-                // 1. Atualiza a lista no frontend com o item editado
-                setFoods(foods.map(f => (f.id === response.data.id ? response.data : f)));
+            const url = isEditing ? `${API_URL}/${foodData.id}` : API_URL;
 
+            if (isEditing) {
+                // EDITAR: usa o método PUT
+                response = await axios.put(url, foodData);
             } else {
-                // Lógica de CRIAÇÃO (POST)
-                response = await axios.post(API_URL, foodToSave);
-                
-                // 2. Adiciona o novo item à lista
-                setFoods([...foods, response.data]);
+                // ADICIONAR: usa o método POST
+                response = await axios.post(url, foodData);
             }
 
-            console.log('Item salvo com sucesso:', response.data);
-            
-            // 3. Reseta o formulário e o estado de edição
-            setFoodData(initialFoodState);
-            setEditingFood(null); 
+            // Lógica de sucesso (limpar formulário, atualizar lista, etc.)
 
         } catch (error) {
             console.error("Erro ao salvar alimento:", error);
-            alert(`Erro ao salvar: ${error.message}. Verifique o console.`);
         }
     };
-    
+
     // Handler para cancelar a edição
     const handleCancel = () => {
         setFoodData(initialFoodState);
@@ -143,7 +127,7 @@ const Home = ({ editingFood, setEditingFood, setFoods, foods }) => {
                     <button type="submit">
                         {isEditing ? 'Salvar Edição' : 'Adicionar'}
                     </button>
-                    
+
                     {isEditing && (
                         <button type="button" onClick={handleCancel} style={{ marginLeft: '10px' }}>
                             Cancelar
