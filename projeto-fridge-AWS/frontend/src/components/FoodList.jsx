@@ -48,14 +48,15 @@ function FoodList({ foods, setFoods, setEditingFood }) {
             ) : (
                 <ul className="food-items">
                     {Array.isArray(foods) && foods.map(food => (
-                        <li key={food.id} className="food-item">
-                            <span className="food-name">Item: {food.name}</span> 
-                            <span className="food-quantity">Qtd: {food.quantity}</span>
-                            <span className="food-date">Validade: {formatDate(food.expirationDate)}</span>
-                            
-                            <button onClick={() => handleEdit(food)}>Editar</button>
-                            <button onClick={() => handleDelete(food.id)}>Excluir</button>
-                        </li>
+                        <ul key={food.id} className="food-item">
+                            <li><span className="food-name">Item: {food.name}</span></li>
+                            <li><span className="food-quantity">Qtd: {food.quantity}</span></li>
+                            <li><span className="food-date">Validade: {formatDate(food.expirationDate)}</span></li>
+                            <li>
+                                <button onClick={() => handleEdit(food)}>Editar</button>
+                                <button onClick={() => handleDelete(food.id)}>Excluir</button>
+                            </li>
+                        </ul>
                     ))}
                 </ul>
             )}
